@@ -1,5 +1,6 @@
 # Zimon
 For jotang
-## i dont undeerstand why i m here to write this
+## i dont understand why i m here to write this
 > jotang club
-**so boring**
+
+**this is so boring**
