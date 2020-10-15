@@ -1,0 +1,39 @@
+#include <stdio.h>
+
+int iBlock[1010][1010]={0};
+
+int main()
+{
+	int n,h[210],x_start[110],x_end[110],num=0;
+	scanf("%d",&n);
+	for(int i=1;i<=n;i++)
+	{
+		scanf("%d %d %d",&h[i],&x_start[i],&x_end[i]);
+	}
+	for(int p=1;p<=n;p++)
+	{
+		for(int i=1;i<=n;i++)
+		{
+			if(i==x_start[p]||i==x_end[p])
+			{
+				for(int j=1;j<=h[p];j++)
+				{
+					iBlock[i][j]=1;
+				}
+			}
+			if(i>x_start[p]&&i<x_end[p])
+			{
+				iBlock[i][h[p]]=1;
+			}
+		}
+	}
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			if(iBlock[i][j]==1)
+				num++;
+		}
+	}
+	printf("%d",num++);
+} 
