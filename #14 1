@@ -9,27 +9,38 @@ int main()
 	for(int i=1;i<=n;i++)
 	{
 		scanf("%d %d %d",&h[i],&x_start[i],&x_end[i]);
+		//检验是否输入信息正确printf("%d %d %d\n",h[i],x_start[i],x_end[i]);
 	}
 	for(int p=1;p<=n;p++)
 	{
-		for(int i=1;i<=n;i++)
+		for(int i=1;i<=1000;i++)
 		{
-			if(i==x_start[p]||i==x_end[p])
+			if(i==x_start[p])
 			{
 				for(int j=1;j<=h[p];j++)
 				{
 					iBlock[i][j]=1;
+					//printf("iBlock[%d][%d]=%d\n",i,j,iBlock[i][j]);
+				}
+			}
+			if(i==x_end[p])
+			{
+				for(int j=1;j<=h[p];j++)
+				{
+					iBlock[i][j]=1;
+					//printf("iBlock[%d][%d]=%d\n",i,j,iBlock[i][j]);
 				}
 			}
 			if(i>x_start[p]&&i<x_end[p])
 			{
 				iBlock[i][h[p]]=1;
+				//printf("iBlock[%d][%d]=%d\n",i,h[p],iBlock[i][h[p]]);
 			}
 		}
 	}
-	for(int i=1;i<=n;i++)
+	for(int i=1;i<=1000;i++)
 	{
-		for(int j=1;j<=n;j++)
+		for(int j=1;j<=1000;j++)
 		{
 			if(iBlock[i][j]==1)
 				num++;
