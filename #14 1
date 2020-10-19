@@ -1,50 +1,101 @@
-#include <stdio.h>
-
+#include<stdio.h>
 int iBlock[1010][1010]={0};
-
-int main()
+int main() 
 {
-	int n,h[210],x_start[110],x_end[110],num=0;
+	int n,iSz[201][4]={0},px[201][4]={0},w=0,v=0,num=0,sum=0;
+
+/* 输入桥的数量 */
+
 	scanf("%d",&n);
-	for(int i=1;i<=n;i++)
+
+/* 输入桥的高度、起始位置、终止位置，分别存入iSz数组所对应的第1列、第2列、第3列位置 */
+
+	for(int i=1; i<=n; i++) 
 	{
-		scanf("%d %d %d",&h[i],&x_start[i],&x_end[i]);
-		//检验是否输入信息正确printf("%d %d %d\n",h[i],x_start[i],x_end[i]);
+		scanf("%d %d %d",&iSz[i][1],&iSz[i][2],&iSz[i][3]);
 	}
-	for(int p=1;p<=n;p++)
+	
+/* 将iSz数组以桥高为准【即第一列为准】由大到小排序存入px（用于将桥排序）数组 */
+	for(int j=1; j<=n; j++) 
 	{
-		for(int i=1;i<=1000;i++)
+		for(int i=1; i<=n; i++) 
 		{
-			if(i==x_start[p])
+			if(iSz[i][1]>w) 
 			{
-				for(int j=1;j<=h[p];j++)
-				{
-					iBlock[i][j]=1;
-					//printf("iBlock[%d][%d]=%d\n",i,j,iBlock[i][j]);
-				}
-			}
-			if(i==x_end[p])
-			{
-				for(int j=1;j<=h[p];j++)
-				{
-					iBlock[i][j]=1;
-					//printf("iBlock[%d][%d]=%d\n",i,j,iBlock[i][j]);
-				}
-			}
-			if(i>x_start[p]&&i<x_end[p])
-			{
-				iBlock[i][h[p]]=1;
-				//printf("iBlock[%d][%d]=%d\n",i,h[p],iBlock[i][h[p]]);
+				w=iSz[i][1];
+				v=i;
 			}
 		}
+		px[j][1]=iSz[v][1];
+		px[j][2]=iSz[v][2];
+		px[j][3]=iSz[v][3];
+		iSz[v][1]=0;                  /*参加完排序后相应数组数据清零*/ 
+		iSz[v][2]=0;                  /*参加完排序后相应数组数据清零*/ 
+		iSz[v][3]=0;                  /*参加完排序后相应数组数据清零*/ 
+		v=0;                          /*数组位置计数器清零*/ 
+		w=0;                          /*数组数值记录器清零*/ 
 	}
-	for(int i=1;i<=1000;i++)
+
+
+
+	for(int i=n; i>0; i--)                           /* 按桥的数量循环 */ 
 	{
-		for(int j=1;j<=1000;j++)
+		for(int x=1; x<=1000; x++)                  /* 把iBlock数组按横坐标方向循环 */ 
 		{
-			if(iBlock[i][j]==1)
-				num++;
+			if(x==px[i][2])                         /* 判断当前位置是否为桥的起点位置 */ 
+			{
+
+/* 如为起点位置则将桥高数值赋给 y 【y为 iBlock数组的纵坐标表示桥高】以桥高和起始位置为准向下逐次循环*/ 
+
+				for(int y=px[i][1]; y>0; y--)
+				{
+
+/* 判断iBlock数组对应位置是否已建成其他桥梁，为 0 则无桥，填 1 建桥，反之如果本身就为 1 则有其他矮桥，跳出循环 */ 
+
+					if(iBlock[x][y]==0)
+						iBlock[x][y]=1;
+					else
+						break;
+				}
+			}
+
+			if(x==px[i][3])                         /* 判断当前位置是否为桥的终点位置 */ 
+			{
+
+/* 如为终点位置则将桥高数值赋给 y （y为 iBlock数组的纵坐标表示桥高）以桥高和终始位置为准向下逐次循环*/ 
+
+				for(int y=px[i][1]; y>0; y--) 
+				{
+
+/* 判断iBlock数组对应位置是否已建成其他桥梁，为 0 则无桥，填 1 建桥，反之如果本身就为 1 则有其他矮桥，跳出循环 */
+
+					if(iBlock[x][y]==0)
+						iBlock[x][y]=1;
+					else
+						break;
+				}
+			}
+
+
+
+			if(x>=px[i][2]&&x<=px[i][3])       /* 桥面 */ 
+			{
+				iBlock[x][px[i][1]]=1;
+			}
+		}
+
+	}
+
+/* 统计全部建桥方块数量 */ 
+
+	for(int i=1; i<1000; i++) 
+	{
+		for(int j=1; j<1000; j++) 
+		{
+			sum=sum+iBlock[i][j];
 		}
 	}
-	printf("%d",num++);
-} 
+
+	printf("%d",sum);
+
+}
