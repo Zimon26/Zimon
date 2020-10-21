@@ -1,0 +1,36 @@
+#include <stdio.h>
+#include <math.h>
+
+int max(int a,int b,int c)
+{
+	if(a>b)
+		b=a;
+	if(b>c)
+		c=b;	
+	return c;
+}
+
+int f[100001][4];//第二个坐标表示当次已经喝了的奶茶杯数
+
+int main()
+{
+	int n; //numbers of milktea
+	int x[100001]; //Mls of every cup of milktea
+	scanf("%d",&n);
+	for(int i=1;i<=n;i++)
+	{
+		scanf("%d",x[i]);
+	}
+	if(n==0)
+		f[0][0]=0;
+	else if(n>0)
+	{
+		for(int j=1;j<=n;j++)
+		{
+			f[j][2]=f[j-1][1]+x[j];
+			f[j][1]=f[j-1][0]+x[j];
+			f[j][0]=max(f[j-1][2],f[j-1][1],f[j-1][0]);
+		}
+	}
+	printf("%d",f[n][0]);
+}
